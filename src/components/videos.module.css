@@ -1,0 +1,6 @@
+.list {
+  display: flex;
+  flex-flow: row wrap;
+  padding: 2rem;
+  background-color: #131313;
+}
