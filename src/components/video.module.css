@@ -1,18 +1,22 @@
 .video {
-  width: 25%;
   display: flex;
   flex-flow: column nowrap;
   padding: 1.5rem;
   color: #fefefe;
+  cursor: pointer;
+}
+
+.video.list-main {
+  width: 25%;
+}
+
+.video.list-sub {
+  width: 100%;
 }
 
 .thumbnail {
   margin-bottom: 1rem;
 }
-
-/* .video > span {
-  margin: 0.5rem 0;
-} */
 
 .title {
   font-size: 1rem;
