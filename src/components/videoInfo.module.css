@@ -1,0 +1,54 @@
+.video {
+  position: relative;
+  width: 70%;
+  color: #fefefe;
+  padding: 1.5rem 0rem 2rem 3.5rem;
+}
+
+.player-wrapper {
+  position: relative;
+  width: 100%;
+  height: 0;
+  padding-top: 56.25%;
+}
+
+.player {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.info {
+  margin-top: 2rem;
+}
+
+.info > span {
+  display: block;
+}
+
+.title {
+  font-weight: bold;
+  font-size: 1.3rem;
+  line-height: 2.6rem;
+}
+
+.channel {
+  font-weight: bold;
+  line-height: 4rem;
+}
+
+.description {
+  display: block;
+  overflow: hidden;
+  word-wrap: break-word;
+  line-height: 1.5rem;
+  height: 7.5rem;
+}
+
+.more-description {
+  color: gray;
+  font-size: 0.8rem;
+  cursor: pointer;
+}
