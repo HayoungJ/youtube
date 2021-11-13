@@ -1,0 +1,34 @@
+.video {
+  width: 25%;
+  display: flex;
+  flex-flow: column nowrap;
+  padding: 1.5rem;
+  color: #fefefe;
+}
+
+.thumbnail {
+  margin-bottom: 1rem;
+}
+
+/* .video > span {
+  margin: 0.5rem 0;
+} */
+
+.title {
+  font-size: 1rem;
+  font-weight: bold;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2; /* 라인수 */
+  -webkit-box-orient: vertical;
+  word-wrap: break-word;
+  line-height: 1.5rem;
+  height: 3rem; /* line-height의 2배 */
+}
+
+.channel {
+  font-size: 0.8rem;
+  color: gray;
+  margin-top: 0.8rem;
+}
