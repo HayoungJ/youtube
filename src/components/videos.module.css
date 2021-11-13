@@ -1,6 +1,20 @@
+.body {
+  display: flex;
+  flex-flow: row wrap;
+  background-color: #131313;
+  padding: 2rem 0rem;
+}
+
 .list {
   display: flex;
   flex-flow: row wrap;
-  padding: 2rem;
-  background-color: #131313;
+  padding: 0rem 2rem;
+}
+
+.info-opened .list {
+  width: 30%;
+}
+
+.info-closed .list {
+  width: 100%;
 }
