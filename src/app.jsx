@@ -6,12 +6,16 @@ import Navbar from './components/navbar';
 
 class App extends Component {
   state = {
-    popularVideoList: [],
+    videoList: [],
     isVideoSelected: false,
     selectedVideo: {},
   };
 
   componentDidMount() {
+    this.fetchPopularVideos();
+  }
+
+  fetchPopularVideos = () => {
     const requestOptions = {
       method: 'GET',
       redirect: 'follow',
@@ -22,14 +26,37 @@ class App extends Component {
       requestOptions
     )
       .then((response) => response.text())
-      .then((result) =>
-        this.setState({ popularVideoList: JSON.parse(result).items })
-      )
+      .then((result) => this.parseVideoData(result))
       .catch((error) => console.log('error', error));
-  }
+  };
+
+  fetchSearchedVideos = (keyword) => {
+    const requestOptions = {
+      method: 'GET',
+      redirect: 'follow',
+    };
+
+    fetch(
+      `https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=25&q=${keyword}&key=AIzaSyC0TTfG7oyacZt0lha5u9O9bC01JGaMtI0`,
+      requestOptions
+    )
+      .then((response) => response.text())
+      .then((result) => this.parseVideoData(result))
+      .catch((error) => console.log('error', error));
+  };
+
+  parseVideoData = (rawData) => {
+    const rawVideoList = JSON.parse(rawData).items;
+    const videoList = rawVideoList.map((video) => {
+      const videoId =
+        typeof video.id === 'string' ? video.id : video.id.videoId;
+      return { id: videoId, snippet: video.snippet };
+    });
+    this.setState({ videoList });
+  };
 
   handleSelect = (id) => {
-    const selectedVideoArray = this.state.popularVideoList.filter(
+    const selectedVideoArray = this.state.videoList.filter(
       (video) => video.id === id
     );
     if (selectedVideoArray.length === 1) {
@@ -39,19 +66,27 @@ class App extends Component {
       });
     } else {
       console.log(
-        'error : 같은 아이디를 가진 동영상이 두 개 이상일 수 없습니다.'
+        'error : 같은 아이디를 가진 동영상이 없거나 두 개 이상일 수 없습니다.'
       );
     }
   };
 
   handleClickLogo = () => {
     this.setState({ isVideoSelected: false });
+    this.fetchPopularVideos();
+  };
+
+  handleSearch = (keyword) => {
+    this.fetchSearchedVideos(keyword);
   };
 
   render() {
     return (
       <>
-        <Navbar onClickLogo={this.handleClickLogo} />
+        <Navbar
+          onClickLogo={this.handleClickLogo}
+          onSearch={this.handleSearch}
+        />
         <section className={styles.content}>
           {this.state.isVideoSelected ? (
             <VideoInfo
@@ -62,7 +97,7 @@ class App extends Component {
             <></>
           )}
           <Videos
-            popularVideoList={this.state.popularVideoList}
+            videoList={this.state.videoList}
             onSelect={this.handleSelect}
             width={this.state.isVideoSelected ? '300px' : '100%'}
           />
