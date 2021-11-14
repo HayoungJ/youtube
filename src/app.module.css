@@ -6,14 +6,19 @@
 
 ul,
 li {
-  margin: 0;
-  padding: 0;
   list-style: none;
 }
 
 .body {
   display: flex;
-  flex-flow: row wrap;
+  flex-flow: row nowrap;
+  justify-content: space-evenly;
   background-color: #131313;
-  padding: 2rem 0rem;
+  padding: 2rem;
+}
+
+@media screen and (max-width: 1200px) {
+  .body {
+    flex-flow: row wrap;
+  }
 }

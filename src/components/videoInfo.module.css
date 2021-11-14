@@ -1,8 +1,19 @@
 .video {
   position: relative;
-  width: 70%;
+  width: calc(100% - 500px);
+  max-width: 1420px;
+  min-width: 800px;
   color: #fefefe;
-  padding: 1.5rem 0rem 2rem 3.5rem;
+  padding: 1.5rem 0rem;
+  margin-right: 2rem;
+  margin-left: 1.5rem;
+}
+
+@media screen and (max-width: 1200px) {
+  .video {
+    margin-right: 0;
+    margin-left: 0;
+  }
 }
 
 .player-wrapper {
