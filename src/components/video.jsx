@@ -12,12 +12,7 @@ class Video extends Component {
     const channel = this.props.info.channelTitle;
 
     return (
-      <li
-        className={`${styles.video} ${
-          this.props.isVideoSelected ? styles[`list-sub`] : styles[`list-main`]
-        }`}
-        onClick={this.handleClick}
-      >
+      <li className={styles.video} onClick={this.handleClick}>
         <img className={styles.thumbnail} src={thumbnail} alt={title} />
         <span className={styles.title}>{title}</span>
         <span className={styles.channel}>{channel}</span>

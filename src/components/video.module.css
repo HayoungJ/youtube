@@ -1,17 +1,11 @@
 .video {
+  width: 25%;
+  min-width: 300px;
   display: flex;
   flex-flow: column nowrap;
   padding: 1.5rem;
   color: #fefefe;
   cursor: pointer;
-}
-
-.video.list-main {
-  width: 25%;
-}
-
-.video.list-sub {
-  width: 100%;
 }
 
 .thumbnail {
