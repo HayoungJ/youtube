@@ -4,11 +4,3 @@
   justify-content: space-evenly;
   padding: 0rem 2rem;
 }
-
-.list.list-shrink {
-  width: 30%;
-}
-
-.list.list-stretch {
-  width: 100%;
-}

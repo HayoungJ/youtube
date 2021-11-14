@@ -5,13 +5,7 @@ import styles from './videos.module.css';
 class Videos extends Component {
   render() {
     return (
-      <ul
-        className={`${styles.list} ${
-          this.props.isVideoSelected
-            ? styles['list-shrink']
-            : styles['list-stretch']
-        }`}
-      >
+      <ul className={styles.list} style={{ width: `${this.props.width}%` }}>
         {this.props.popularVideoList.map((video) => {
           return (
             <Video
