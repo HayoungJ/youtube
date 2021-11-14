@@ -39,7 +39,7 @@
   height: 40px;
   display: flex;
   flex-flow: row nowrap;
-  justify-content: end;
+  justify-content: flex-end;
   flex-grow: 1;
 }
 
