@@ -2,6 +2,16 @@ import React, { Component } from 'react';
 import styles from './navbar.module.css';
 
 class Navbar extends Component {
+  formRef = React.createRef();
+  inputRef = React.createRef();
+
+  onSubmit = (event) => {
+    event.preventDefault();
+    const keyword = this.inputRef.current.value;
+    keyword && this.props.onSearch(keyword);
+    this.formRef.current.reset();
+  };
+
   render() {
     return (
       <header className={styles.navbar}>
@@ -13,8 +23,12 @@ class Navbar extends Component {
             />
             <span>Youtube</span>
           </div>
-          <form className={styles.search}>
-            <input type="text" placeholder="검색" />
+          <form
+            ref={this.formRef}
+            className={styles.search}
+            onSubmit={this.onSubmit}
+          >
+            <input ref={this.inputRef} type="text" placeholder="검색" />
             <button>
               <img
                 src={process.env.PUBLIC_URL + '/images/search.png'}
