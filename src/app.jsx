@@ -2,6 +2,7 @@ import { Component } from 'react';
 import styles from './app.module.css';
 import Videos from './components/videos';
 import VideoInfo from './components/videoInfo';
+import Navbar from './components/navbar';
 
 class App extends Component {
   state = {
@@ -43,23 +44,30 @@ class App extends Component {
     }
   };
 
+  handleClickLogo = () => {
+    this.setState({ isVideoSelected: false });
+  };
+
   render() {
     return (
-      <section className={styles.body}>
-        {this.state.isVideoSelected ? (
-          <VideoInfo
-            id={this.state.selectedVideo.id}
-            info={this.state.selectedVideo.snippet}
+      <>
+        <Navbar onClickLogo={this.handleClickLogo} />
+        <section className={styles.content}>
+          {this.state.isVideoSelected ? (
+            <VideoInfo
+              id={this.state.selectedVideo.id}
+              info={this.state.selectedVideo.snippet}
+            />
+          ) : (
+            <></>
+          )}
+          <Videos
+            popularVideoList={this.state.popularVideoList}
+            onSelect={this.handleSelect}
+            width={this.state.isVideoSelected ? '300px' : '100%'}
           />
-        ) : (
-          <></>
-        )}
-        <Videos
-          popularVideoList={this.state.popularVideoList}
-          onSelect={this.handleSelect}
-          width={this.state.isVideoSelected ? '300px' : '100%'}
-        />
-      </section>
+        </section>
+      </>
     );
   }
 }
