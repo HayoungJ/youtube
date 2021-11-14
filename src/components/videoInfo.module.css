@@ -24,7 +24,7 @@
   margin-top: 2rem;
 }
 
-.info > span {
+.info span {
   display: block;
 }
 
@@ -44,11 +44,15 @@
   overflow: hidden;
   word-wrap: break-word;
   line-height: 1.5rem;
+}
+
+.description.short-description {
   height: 7.5rem;
 }
 
-.more-description {
+.more-description-btn {
   color: gray;
   font-size: 0.8rem;
   cursor: pointer;
+  margin-top: 1rem;
 }
