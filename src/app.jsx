@@ -1,10 +1,13 @@
 import { Component } from 'react';
-import './app.css';
+import styles from './app.module.css';
 import Videos from './components/videos';
+import VideoInfo from './components/videoInfo';
 
 class App extends Component {
   state = {
     popularVideoList: [],
+    isVideoSelected: false,
+    selectedVideo: {},
   };
 
   componentDidMount() {
@@ -24,8 +27,42 @@ class App extends Component {
       .catch((error) => console.log('error', error));
   }
 
+  handleSelect = (id) => {
+    const selectedVideoArray = this.state.popularVideoList.filter(
+      (video) => video.id === id
+    );
+    if (selectedVideoArray.length === 1) {
+      this.setState({
+        isVideoSelected: true,
+        selectedVideo: selectedVideoArray[0],
+      });
+    } else {
+      console.log(
+        'error : 같은 아이디를 가진 동영상이 두 개 이상일 수 없습니다.'
+      );
+    }
+  };
+
   render() {
-    return <Videos popularVideoList={this.state.popularVideoList} />;
+    return (
+      <section className={styles.body}>
+        {this.state.isVideoSelected ? (
+          <VideoInfo
+            key={this.state.selectedVideo.id}
+            id={this.state.selectedVideo.id}
+            info={this.state.selectedVideo.snippet}
+          />
+        ) : (
+          <></>
+        )}
+        <Videos
+          popularVideoList={this.state.popularVideoList}
+          onSelect={this.handleSelect}
+          isVideoSelected={this.state.isVideoSelected}
+        />
+        ;
+      </section>
+    );
   }
 }
 
