@@ -6,7 +6,7 @@ class Videos extends Component {
   render() {
     return (
       <ul className={styles.list} style={{ width: `${this.props.width}` }}>
-        {this.props.popularVideoList.map((video) => {
+        {this.props.videoList.map((video) => {
           return (
             <Video
               key={video.id}
