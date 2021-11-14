@@ -1,20 +1,14 @@
-.body {
-  display: flex;
-  flex-flow: row wrap;
-  background-color: #131313;
-  padding: 2rem 0rem;
-}
-
 .list {
   display: flex;
   flex-flow: row wrap;
+  justify-content: space-evenly;
   padding: 0rem 2rem;
 }
 
-.info-opened .list {
+.list.list-shrink {
   width: 30%;
 }
 
-.info-closed .list {
+.list.list-stretch {
   width: 100%;
 }
