@@ -5,7 +5,7 @@ import styles from './videos.module.css';
 class Videos extends Component {
   render() {
     return (
-      <ul className={styles.list} style={{ width: `${this.props.width}%` }}>
+      <ul className={styles.list} style={{ width: `${this.props.width}` }}>
         {this.props.popularVideoList.map((video) => {
           return (
             <Video

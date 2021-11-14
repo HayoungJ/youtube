@@ -57,9 +57,8 @@ class App extends Component {
         <Videos
           popularVideoList={this.state.popularVideoList}
           onSelect={this.handleSelect}
-          width={this.state.isVideoSelected ? 30 : 100}
+          width={this.state.isVideoSelected ? '300px' : '100%'}
         />
-        ;
       </section>
     );
   }
