@@ -48,7 +48,6 @@ class App extends Component {
       <section className={styles.body}>
         {this.state.isVideoSelected ? (
           <VideoInfo
-            key={this.state.selectedVideo.id}
             id={this.state.selectedVideo.id}
             info={this.state.selectedVideo.snippet}
           />
