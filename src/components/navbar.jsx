@@ -5,18 +5,22 @@ class Navbar extends Component {
   formRef = React.createRef();
   inputRef = React.createRef();
 
+  onClick = () => {
+    this.props.onReload();
+    this.formRef.current.reset();
+  };
+
   onSubmit = (event) => {
     event.preventDefault();
     const keyword = this.inputRef.current.value;
     keyword && this.props.onSearch(keyword);
-    this.formRef.current.reset();
   };
 
   render() {
     return (
       <header className={styles.navbar}>
         <div className={styles.wrapper}>
-          <div className={styles.logo} onClick={this.props.onClickLogo}>
+          <div className={styles.logo} onClick={this.onClick}>
             <img
               src={process.env.PUBLIC_URL + '/images/logo.png'}
               alt="Youtube"
