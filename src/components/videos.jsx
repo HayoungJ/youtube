@@ -11,7 +11,7 @@ class Videos extends Component {
             <Video
               key={video.id}
               id={video.id}
-              info={video.snippet}
+              info={video}
               onSelect={this.props.onSelect}
             />
           );

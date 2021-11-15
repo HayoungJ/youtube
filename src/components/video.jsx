@@ -7,15 +7,14 @@ class Video extends Component {
   };
 
   render() {
-    const thumbnail = this.props.info.thumbnails.high.url;
-    const title = this.props.info.title;
-    const channel = this.props.info.channelTitle;
-
+    const { title, thumbnail, channelTitle } = this.props.info;
     return (
-      <li className={styles.video} onClick={this.handleClick}>
-        <img className={styles.thumbnail} src={thumbnail} alt={title} />
-        <span className={styles.title}>{title}</span>
-        <span className={styles.channel}>{channel}</span>
+      <li className={styles['video-wrap']}>
+        <div className={styles.video} onClick={this.handleClick}>
+          <img className={styles.thumbnail} src={thumbnail} alt={title} />
+          <span className={styles.title}>{title}</span>
+          <span className={styles.channel}>{channelTitle}</span>
+        </div>
       </li>
     );
   }
