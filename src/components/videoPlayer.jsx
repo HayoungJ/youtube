@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import styles from './videoInfo.module.css';
+import styles from './videoPlayer.module.css';
 
-class VideoInfo extends Component {
+class VideoPlayer extends Component {
   state = {
     isDescOpened: false,
   };
@@ -11,20 +11,20 @@ class VideoInfo extends Component {
   };
 
   render() {
-    let descKey = 0;
+    const { id, title, description, channelTitle } = this.props.info;
     return (
       <div className={styles.video}>
         <div className={styles['player-wrapper']}>
           <iframe
             className={styles.player}
-            src={`http://www.youtube.com/embed/${this.props.id}`}
+            src={`http://www.youtube.com/embed/${id}`}
             frameBorder="0"
-            title={this.props.info.title}
+            title={title}
           ></iframe>
         </div>
         <div className={styles.info}>
-          <span className={styles.title}>{this.props.info.title}</span>
-          <span className={styles.channel}>{this.props.info.channelTitle}</span>
+          <span className={styles.title}>{title}</span>
+          <span className={styles.channel}>{channelTitle}</span>
           <div className={styles['description-wrap']}>
             <span
               className={`${styles.description} ${
@@ -33,9 +33,9 @@ class VideoInfo extends Component {
                   : styles['short-description']
               }`}
             >
-              {this.props.info.description.split('\n').map((line) => {
+              {description.split('\n').map((line, index) => {
                 return (
-                  <span key={Date.now() + descKey++}>
+                  <span key={Date.now() + index}>
                     {line}
                     <br />
                   </span>
@@ -55,4 +55,4 @@ class VideoInfo extends Component {
   }
 }
 
-export default VideoInfo;
+export default VideoPlayer;
