@@ -1,108 +1,173 @@
-import { Component } from 'react';
+import React, { Component } from 'react';
 import styles from './app.module.css';
+import { fetchPopularVideo, fetchSearchedVideo } from './api/youtubeAPI';
 import Videos from './components/videos';
-import VideoInfo from './components/videoInfo';
+import VideoPlayer from './components/videoPlayer';
 import Navbar from './components/navbar';
 
 class App extends Component {
   state = {
-    videoList: [],
-    isVideoSelected: false,
-    selectedVideo: {},
+    fetchInfo: {
+      q: undefined,
+      publishedBefore: undefined,
+      pageToken: undefined,
+      type: 'popular',
+      videoList: [],
+    },
+    videoPlaying: {
+      isVideoPlaying: false,
+      videoInfo: {},
+    },
   };
 
-  componentDidMount() {
-    this.fetchPopularVideos();
+  observerRef = React.createRef();
+
+  async componentDidMount() {
+    await this.loadPopularVideo();
+    // Infinite Scroll observer
+    const observer = new IntersectionObserver(this.observeCallback);
+    observer.observe(this.observerRef.current);
   }
 
-  fetchPopularVideos = () => {
-    const requestOptions = {
-      method: 'GET',
-      redirect: 'follow',
+  handlePlay = (id) => {
+    const videoList = this.state.fetchInfo.videoList;
+    const video =
+      videoList.length > 0
+        ? videoList.find((video) => video.id === id)
+        : undefined;
+    if (!video) throw new Error(`Can't play the selected video`);
+
+    const videoPlaying = {
+      isVideoPlaying: true,
+      videoInfo: video,
+    };
+    this.setState({ videoPlaying });
+  };
+
+  finishPlay = () => {
+    const videoPlaying = {
+      isVideoPlaying: false,
+      videoInfo: {},
+    };
+    this.setState({ videoPlaying });
+
+    const observer = new IntersectionObserver(this.observeCallback);
+    observer.observe(this.observerRef.current);
+  };
+
+  handleSearch = async (q) => {
+    this.finishPlay();
+    this.loadSearchedVideo(q);
+  };
+
+  handleReload = () => {
+    this.finishPlay();
+    this.loadPopularVideo();
+  };
+
+  // Default Video : The most popular videos
+  loadPopularVideo = async () => {
+    const fetchInfo = {
+      q: undefined,
+      publishedBefore: this.getDate(),
+      pageToken: undefined,
+      type: 'popular',
+      videoList: [],
     };
 
-    fetch(
-      'https://youtube.googleapis.com/youtube/v3/videos?part=snippet&chart=mostPopular&maxResults=25&key=AIzaSyC0TTfG7oyacZt0lha5u9O9bC01JGaMtI0',
-      requestOptions
-    )
-      .then((response) => response.text())
-      .then((result) => this.parseVideoData(result))
-      .catch((error) => console.log('error', error));
+    const { nextPageToken, videoList } = await fetchPopularVideo(fetchInfo);
+    fetchInfo.pageToken = nextPageToken;
+    fetchInfo.videoList = videoList;
+
+    this.setState({ fetchInfo });
   };
 
-  fetchSearchedVideos = (keyword) => {
-    const requestOptions = {
-      method: 'GET',
-      redirect: 'follow',
+  loadSearchedVideo = async (q) => {
+    const fetchInfo = {
+      q,
+      publishedBefore: this.getDate(),
+      pageToken: undefined,
+      type: 'search',
+      videoList: [],
     };
 
-    fetch(
-      `https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=25&q=${keyword}&key=AIzaSyC0TTfG7oyacZt0lha5u9O9bC01JGaMtI0`,
-      requestOptions
-    )
-      .then((response) => response.text())
-      .then((result) => this.parseVideoData(result))
-      .catch((error) => console.log('error', error));
+    const { nextPageToken, videoList } = await fetchSearchedVideo(fetchInfo);
+    fetchInfo.pageToken = nextPageToken;
+    fetchInfo.videoList = videoList;
+
+    this.setState({ fetchInfo });
   };
 
-  parseVideoData = (rawData) => {
-    const rawVideoList = JSON.parse(rawData).items;
-    const videoList = rawVideoList.map((video) => {
-      const videoId =
-        typeof video.id === 'string' ? video.id : video.id.videoId;
-      return { id: videoId, snippet: video.snippet };
-    });
-    this.setState({ videoList });
+  loadMoreVideo = async () => {
+    const fetchInfo = this.state.fetchInfo;
+    const { nextPageToken, videoList } =
+      fetchInfo.type === 'search'
+        ? await fetchSearchedVideo(fetchInfo)
+        : fetchInfo.type === 'popular'
+        ? await fetchPopularVideo(fetchInfo)
+        : {};
+    const newVideoList = fetchInfo.videoList.concat(videoList);
+    const newFetchInfo = {
+      ...fetchInfo,
+      pageToken: nextPageToken,
+      videoList: newVideoList,
+    };
+
+    this.setState({ fetchInfo: newFetchInfo });
   };
 
-  handleSelect = (id) => {
-    const selectedVideoArray = this.state.videoList.filter(
-      (video) => video.id === id
-    );
-    if (selectedVideoArray.length === 1) {
-      this.setState({
-        isVideoSelected: true,
-        selectedVideo: selectedVideoArray[0],
-      });
-    } else {
-      console.log(
-        'error : 같은 아이디를 가진 동영상이 없거나 두 개 이상일 수 없습니다.'
-      );
+  observeCallback = (entries, observer) => {
+    if (this.state.videoPlaying.isVideoPlaying) {
+      observer.unobserve(this.observerRef.current);
+      return;
     }
+
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        this.loadMoreVideo();
+      }
+    });
   };
 
-  handleClickLogo = () => {
-    this.setState({ isVideoSelected: false });
-    this.fetchPopularVideos();
+  getDate = () => {
+    return new Date().toISOString();
   };
 
-  handleSearch = (keyword) => {
-    this.fetchSearchedVideos(keyword);
+  getRandomVideo = (list, num) => {
+    const randomIndex = [];
+    for (let i = 0; i < num; i++) {
+      const pick = Math.floor(Math.random() * list.length);
+      randomIndex.push(pick);
+    }
+    const randomVideo = list.filter((video, index) =>
+      randomIndex.includes(index)
+    );
+    return randomVideo;
   };
 
   render() {
+    const isVideoPlaying = this.state.videoPlaying.isVideoPlaying;
     return (
-      <>
-        <Navbar
-          onClickLogo={this.handleClickLogo}
-          onSearch={this.handleSearch}
-        />
+      <div className={styles.page}>
+        <Navbar onReload={this.handleReload} onSearch={this.handleSearch} />
         <section className={styles.content}>
-          {this.state.isVideoSelected ? (
-            <VideoInfo
-              id={this.state.selectedVideo.id}
-              info={this.state.selectedVideo.snippet}
-            />
+          {isVideoPlaying ? (
+            <VideoPlayer info={this.state.videoPlaying.videoInfo} />
           ) : (
             <></>
           )}
           <Videos
-            videoList={this.state.videoList}
-            onSelect={this.handleSelect}
-            width={this.state.isVideoSelected ? '300px' : '100%'}
+            videoList={
+              isVideoPlaying
+                ? this.getRandomVideo(this.state.fetchInfo.videoList, 6)
+                : this.state.fetchInfo.videoList
+            }
+            onSelect={this.handlePlay}
+            width={isVideoPlaying ? '300px' : '100%'}
           />
         </section>
-      </>
+        <div ref={this.observerRef} className={styles.observer}></div>
+      </div>
     );
   }
 }
