@@ -16,7 +16,11 @@ class Content extends PureComponent {
     } = this.props;
     return (
       <>
-        <section className={styles.content}>
+        <section
+          className={`${styles.content} ${
+            isVideoPlaying ? styles.row : styles.column
+          }`}
+        >
           {isVideoPlaying ? <VideoPlayer info={videoInfo} /> : <></>}
           <Videos
             videoList={

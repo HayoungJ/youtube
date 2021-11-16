@@ -1,10 +1,18 @@
 .content {
   display: flex;
-  flex-flow: column nowrap;
-  align-items: center;
   background-color: #131313;
   padding: 2rem;
   margin-top: 80px;
+}
+
+.content.column {
+  flex-flow: column nowrap;
+  align-items: center;
+}
+
+.content.row {
+  flex-flow: row nowrap;
+  justify-content: space-around;
 }
 
 @media screen and (max-width: 1200px) {
