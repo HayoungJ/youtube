@@ -13,3 +13,11 @@ export const getRandomVideo = (list, num) => {
   );
   return randomVideo;
 };
+
+export const getHtmlString = (text) => {
+  const parser = new DOMParser();
+  const htmlText = parser
+    .parseFromString(text, 'text/html')
+    .getElementsByTagName('body')[0].textContent;
+  return htmlText;
+};

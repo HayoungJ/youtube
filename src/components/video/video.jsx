@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import styles from './video.module.css';
+import { getHtmlString } from '../../utils/index.js';
 
 class Video extends Component {
   handleClick = () => {
@@ -12,8 +13,8 @@ class Video extends Component {
       <li className={styles['video-wrap']}>
         <div className={styles.video} onClick={this.handleClick}>
           <img className={styles.thumbnail} src={thumbnail} alt={title} />
-          <span className={styles.title}>{title}</span>
-          <span className={styles.channel}>{channelTitle}</span>
+          <span className={styles.title}>{getHtmlString(title)}</span>
+          <span className={styles.channel}>{getHtmlString(channelTitle)}</span>
         </div>
       </li>
     );
