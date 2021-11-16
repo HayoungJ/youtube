@@ -1,0 +1,20 @@
+.content {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-evenly;
+  background-color: #131313;
+  padding: 2rem;
+  margin-top: 80px;
+}
+
+@media screen and (max-width: 1200px) {
+  .content {
+    flex-flow: row wrap;
+  }
+}
+
+.observer {
+  width: 100%;
+  background-color: #131313;
+  height: 5rem;
+}
