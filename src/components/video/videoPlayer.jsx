@@ -18,7 +18,7 @@ class VideoPlayer extends PureComponent {
         <div className={styles['player-wrapper']}>
           <iframe
             className={styles.player}
-            src={`http://www.youtube.com/embed/${id}`}
+            src={`https://www.youtube.com/embed/${id}`}
             frameBorder="0"
             title={title}
           ></iframe>
