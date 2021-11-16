@@ -8,6 +8,7 @@ export const getRandomVideo = (list, num) => {
     const pick = Math.floor(Math.random() * list.length);
     randomIndex.push(pick);
   }
+
   const randomVideo = list.filter((video, index) =>
     randomIndex.includes(index)
   );

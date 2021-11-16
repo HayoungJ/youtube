@@ -1,11 +1,11 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import styles from './content.module.css';
 import { getRandomVideo } from '../utils';
 import Videos from './video/videos';
 import VideoPlayer from './video/videoPlayer';
 import Loader from './loader';
 
-class Content extends Component {
+class Content extends PureComponent {
   render() {
     const {
       videoList,

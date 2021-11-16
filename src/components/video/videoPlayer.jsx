@@ -1,8 +1,8 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import styles from './videoPlayer.module.css';
 import { getHtmlString } from '../../utils/index.js';
 
-class VideoPlayer extends Component {
+class VideoPlayer extends PureComponent {
   state = {
     isDescOpened: false,
   };

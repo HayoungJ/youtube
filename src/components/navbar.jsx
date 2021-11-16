@@ -1,7 +1,7 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import styles from './navbar.module.css';
 
-class Navbar extends Component {
+class Navbar extends PureComponent {
   formRef = React.createRef();
   inputRef = React.createRef();
 

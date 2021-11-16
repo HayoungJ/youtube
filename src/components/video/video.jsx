@@ -1,8 +1,8 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import styles from './video.module.css';
 import { getHtmlString } from '../../utils/index.js';
 
-class Video extends Component {
+class Video extends PureComponent {
   handleClick = () => {
     this.props.onPlay(this.props.id);
   };

@@ -1,8 +1,8 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import Video from './video';
 import styles from './videos.module.css';
 
-class Videos extends Component {
+class Videos extends PureComponent {
   render() {
     return (
       <ul className={styles.list} style={{ width: `${this.props.width}` }}>
