@@ -20,7 +20,7 @@
 
 ### 검색한 동영상을 무한스크롤로 보여주기
 
-![image](https://user-images.githubusercontent.com/59152882/141980545-fa317829-c111-4c94-a5b0-707fe0137758.png)
+![image](https://user-images.githubusercontent.com/59152882/141991412-60f9bc06-8313-4505-b6d1-6cf850554450.png)
 
 > Youtube API에서 제공하는 Search List를 이용해, 검색한 단어에 맞는 동영상을 불러오도록 하였다. 한번에 24개의 동영상을 불러오며, 현재 보여주는 동영상을 모두 확인하면 새로 24개의 동영상을 불러오도록 하였다.
 
