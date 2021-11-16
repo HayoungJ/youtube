@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import styles from './videoPlayer.module.css';
+import { getHtmlString } from '../../utils/index.js';
 
 class VideoPlayer extends Component {
   state = {
@@ -23,8 +24,8 @@ class VideoPlayer extends Component {
           ></iframe>
         </div>
         <div className={styles.info}>
-          <span className={styles.title}>{title}</span>
-          <span className={styles.channel}>{channelTitle}</span>
+          <span className={styles.title}>{getHtmlString(title)}</span>
+          <span className={styles.channel}>{getHtmlString(channelTitle)}</span>
           <div className={styles['description-wrap']}>
             <span
               className={`${styles.description} ${
@@ -35,7 +36,7 @@ class VideoPlayer extends Component {
             >
               {description.split('\n').map((line, index) => {
                 return (
-                  <span key={Date.now() + index}>
+                  <span key={index}>
                     {line}
                     <br />
                   </span>
