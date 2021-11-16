@@ -58,15 +58,7 @@ const parseVideoData = async (result) => {
   return { nextPageToken, videoList };
 };
 
-export const fetchPopularVideo = async (
-  { publishedBefore, pageToken },
-  maxResults = 24
-) => {
-  if (!publishedBefore)
-    throw new Error(
-      `There is missing params to load popular video - publishedBefore: ${publishedBefore}`
-    );
-
+export const fetchPopularVideo = async ({ pageToken }, maxResults = 24) => {
   const result = await buildAPIRequest('GET', '/videos', {
     part: 'id, snippet',
     chart: 'mostPopular',
@@ -74,7 +66,6 @@ export const fetchPopularVideo = async (
     fields:
       'nextPageToken, items(id, snippet(title, description, thumbnails(high(url)), channelTitle))',
     pageToken,
-    publishedBefore,
     regionCode: 'KR',
   });
 

@@ -51,8 +51,7 @@ class App extends Component {
     };
     this.setState({ videoPlaying });
 
-    const observer = new IntersectionObserver(this.observeCallback);
-    observer.observe(this.observerRef.current);
+    scrollObserver(this.observerRef.current, this.handleScroll);
   };
 
   handleSearch = async (q) => {
@@ -70,7 +69,7 @@ class App extends Component {
 
     const fetchInfo = {
       q: undefined,
-      publishedBefore: getDate(),
+      publishedBefore: undefined,
       pageToken: undefined,
       type: 'popular',
       videoList: [],
