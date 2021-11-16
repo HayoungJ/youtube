@@ -3,7 +3,7 @@ import styles from './video.module.css';
 
 class Video extends Component {
   handleClick = () => {
-    this.props.onSelect(this.props.id);
+    this.props.onPlay(this.props.id);
   };
 
   render() {

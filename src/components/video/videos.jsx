@@ -12,7 +12,7 @@ class Videos extends Component {
               key={video.id}
               id={video.id}
               info={video}
-              onSelect={this.props.onSelect}
+              onPlay={this.props.handlePlay}
             />
           );
         })}
