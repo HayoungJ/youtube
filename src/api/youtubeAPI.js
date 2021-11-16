@@ -75,6 +75,7 @@ export const fetchPopularVideo = async (
       'nextPageToken, items(id, snippet(title, description, thumbnails(high(url)), channelTitle))',
     pageToken,
     publishedBefore,
+    regionCode: 'KR',
   });
 
   return await parseVideoData(result);
