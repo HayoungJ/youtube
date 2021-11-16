@@ -1,6 +1,6 @@
 .content {
   display: flex;
-  flex-flow: row nowrap;
+  flex-flow: column nowrap;
   justify-content: space-evenly;
   background-color: #131313;
   padding: 2rem;
@@ -14,7 +14,6 @@
 }
 
 .observer {
-  width: 100%;
   background-color: #131313;
   height: 5rem;
 }
