@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import styles from './app.module.css';
 import { fetchPopularVideo, fetchSearchedVideo } from './api/youtubeAPI';
-import Videos from './components/videos';
-import VideoPlayer from './components/videoPlayer';
+import { getDate } from './utils';
+import { scrollObserver } from './utils/scroll';
 import Navbar from './components/navbar';
+import Content from './components/content';
 
 class App extends Component {
   state = {
@@ -18,15 +19,14 @@ class App extends Component {
       isVideoPlaying: false,
       videoInfo: {},
     },
+    isLoading: false,
   };
 
   observerRef = React.createRef();
 
   async componentDidMount() {
     await this.loadPopularVideo();
-    // Infinite Scroll observer
-    const observer = new IntersectionObserver(this.observeCallback);
-    observer.observe(this.observerRef.current);
+    scrollObserver(this.observerRef.current, this.handleScroll);
   }
 
   handlePlay = (id) => {
@@ -65,11 +65,12 @@ class App extends Component {
     this.loadPopularVideo();
   };
 
-  // Default Video : The most popular videos
   loadPopularVideo = async () => {
+    this.showLoadingIndicator();
+
     const fetchInfo = {
       q: undefined,
-      publishedBefore: this.getDate(),
+      publishedBefore: getDate(),
       pageToken: undefined,
       type: 'popular',
       videoList: [],
@@ -80,12 +81,14 @@ class App extends Component {
     fetchInfo.videoList = videoList;
 
     this.setState({ fetchInfo });
+
+    this.hideLoadingIndicator();
   };
 
   loadSearchedVideo = async (q) => {
     const fetchInfo = {
       q,
-      publishedBefore: this.getDate(),
+      publishedBefore: getDate(),
       pageToken: undefined,
       type: 'search',
       videoList: [],
@@ -99,6 +102,8 @@ class App extends Component {
   };
 
   loadMoreVideo = async () => {
+    this.showLoadingIndicator();
+
     const fetchInfo = this.state.fetchInfo;
     const { nextPageToken, videoList } =
       fetchInfo.type === 'search'
@@ -114,9 +119,11 @@ class App extends Component {
     };
 
     this.setState({ fetchInfo: newFetchInfo });
+
+    this.hideLoadingIndicator();
   };
 
-  observeCallback = (entries, observer) => {
+  handleScroll = (entries, observer) => {
     if (this.state.videoPlaying.isVideoPlaying) {
       observer.unobserve(this.observerRef.current);
       return;
@@ -129,44 +136,25 @@ class App extends Component {
     });
   };
 
-  getDate = () => {
-    return new Date().toISOString();
+  showLoadingIndicator = () => {
+    this.setState({ isLoading: true });
   };
 
-  getRandomVideo = (list, num) => {
-    const randomIndex = [];
-    for (let i = 0; i < num; i++) {
-      const pick = Math.floor(Math.random() * list.length);
-      randomIndex.push(pick);
-    }
-    const randomVideo = list.filter((video, index) =>
-      randomIndex.includes(index)
-    );
-    return randomVideo;
+  hideLoadingIndicator = () => {
+    this.setState({ isLoading: false });
   };
 
   render() {
-    const isVideoPlaying = this.state.videoPlaying.isVideoPlaying;
     return (
       <div className={styles.page}>
         <Navbar onReload={this.handleReload} onSearch={this.handleSearch} />
-        <section className={styles.content}>
-          {isVideoPlaying ? (
-            <VideoPlayer info={this.state.videoPlaying.videoInfo} />
-          ) : (
-            <></>
-          )}
-          <Videos
-            videoList={
-              isVideoPlaying
-                ? this.getRandomVideo(this.state.fetchInfo.videoList, 6)
-                : this.state.fetchInfo.videoList
-            }
-            onSelect={this.handlePlay}
-            width={isVideoPlaying ? '300px' : '100%'}
-          />
-        </section>
-        <div ref={this.observerRef} className={styles.observer}></div>
+        <Content
+          videoList={this.state.fetchInfo.videoList}
+          videoPlaying={this.state.videoPlaying}
+          isLoading={this.state.isLoading}
+          handlePlay={this.handlePlay}
+          observerRef={this.observerRef}
+        />
       </div>
     );
   }
