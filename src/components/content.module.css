@@ -1,7 +1,7 @@
 .content {
   display: flex;
   flex-flow: column nowrap;
-  justify-content: space-evenly;
+  align-items: center;
   background-color: #131313;
   padding: 2rem;
   margin-top: 80px;
