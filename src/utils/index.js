@@ -22,3 +22,9 @@ export const getHtmlString = (text) => {
     .getElementsByTagName('body')[0].textContent;
   return htmlText;
 };
+
+export const resetScroll = () => {
+  window.scrollTo({
+    top: 0,
+  });
+};
