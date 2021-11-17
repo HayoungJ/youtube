@@ -42,6 +42,7 @@ class App extends Component {
       videoInfo: video,
     };
     this.setState({ videoPlaying });
+    this.resetScroll();
   };
 
   finishPlay = () => {
@@ -57,11 +58,13 @@ class App extends Component {
   handleSearch = async (q) => {
     this.finishPlay();
     this.loadSearchedVideo(q);
+    this.resetScroll();
   };
 
   handleReload = () => {
     this.finishPlay();
     this.loadPopularVideo();
+    this.resetScroll();
   };
 
   loadPopularVideo = async () => {
@@ -141,6 +144,12 @@ class App extends Component {
 
   hideLoadingIndicator = () => {
     this.setState({ isLoading: false });
+  };
+
+  resetScroll = () => {
+    window.scrollTo({
+      top: 0,
+    });
   };
 
   render() {
