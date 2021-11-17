@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import styles from './app.module.css';
 import { fetchPopularVideo, fetchSearchedVideo } from './api/youtubeAPI';
-import { getDate } from './utils';
+import { getDate, resetScroll } from './utils';
 import { scrollObserver } from './utils/scroll';
 import Navbar from './components/navbar';
 import Content from './components/content';
@@ -42,6 +42,7 @@ class App extends Component {
       videoInfo: video,
     };
     this.setState({ videoPlaying });
+    resetScroll();
   };
 
   finishPlay = () => {
@@ -57,11 +58,13 @@ class App extends Component {
   handleSearch = async (q) => {
     this.finishPlay();
     this.loadSearchedVideo(q);
+    resetScroll();
   };
 
   handleReload = () => {
     this.finishPlay();
     this.loadPopularVideo();
+    resetScroll();
   };
 
   loadPopularVideo = async () => {
