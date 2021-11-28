@@ -21,10 +21,7 @@ class Navbar extends PureComponent {
       <header className={styles.navbar}>
         <div className={styles.wrapper}>
           <div className={styles.logo} onClick={this.onClick}>
-            <img
-              src={process.env.PUBLIC_URL + '/images/logo.png'}
-              alt="Youtube"
-            />
+            <img src="/images/logo.png" alt="Youtube" />
             <span>Youtube</span>
           </div>
           <form
@@ -34,10 +31,7 @@ class Navbar extends PureComponent {
           >
             <input ref={this.inputRef} type="text" placeholder="검색" />
             <button>
-              <img
-                src={process.env.PUBLIC_URL + '/images/search.png'}
-                alt="검색"
-              />
+              <img src="/images/search.png" alt="검색" />
             </button>
           </form>
         </div>
