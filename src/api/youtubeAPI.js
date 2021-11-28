@@ -14,7 +14,7 @@ const buildAPIRequest = (method, path, params) => {
   }
 
   return fetch(url, requestOptions)
-    .then((response) => response.text())
+    .then((response) => response.json())
     .then((result) => {
       return result;
     })
@@ -32,10 +32,9 @@ const buildAPIUrl = (path, params) => {
 };
 
 const parseVideoData = async (result) => {
-  const data = JSON.parse(result);
-  const nextPageToken = data.nextPageToken;
+  const nextPageToken = result.nextPageToken;
   const videoList = await Promise.all(
-    data.items
+    result.items
       .map((video) => {
         const videoId =
           typeof video.id === 'string'
