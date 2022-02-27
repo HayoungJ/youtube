@@ -5,6 +5,9 @@
 1. 공식문서를 직접 읽고, 문서를 기반으로 RESTful API를 사용해보기
 2. Infinite Scroll 구현해보기
 
+## 프로젝트 배포 링크
+https://hayoung-youtube.netlify.app/
+
 ## 프로젝트 기본 기능
 
 ### 대한민국에서 가장 인기있는 동영상을 무한스크롤로 보여주기
